@@ -34,10 +34,10 @@ type ILogger interface {
 func Init(filePath string) error {
 	if filePath == "" {
 		// Reset to stdout if no file path provided
-		l.outputFile = nil
-		l.infoLogger = log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
-		l.debugLogger = log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
-		l.errorLogger = log.New(os.Stdout, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+		outputFile = nil
+		infoLogger = log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+		debugLogger = log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
+		errorLogger = log.New(os.Stdout, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
 		return nil
 	}
 
@@ -47,18 +47,18 @@ func Init(filePath string) error {
 		return err
 	}
 
-	l.outputFile = file
-	l.infoLogger = log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
-	l.debugLogger = log.New(file, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
-	l.errorLogger = log.New(file, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+	outputFile = file
+	infoLogger = log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+	debugLogger = log.New(file, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
+	errorLogger = log.New(file, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
 
 	return nil
 }
 
 // Close closes the output file if one was opened
 func Close() error {
-	if l.outputFile != nil {
-		return l.outputFile.Close()
+	if outputFile != nil {
+		return outputFile.Close()
 	}
 	return nil
 }
