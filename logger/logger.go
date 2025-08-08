@@ -12,7 +12,15 @@ type Logger struct {
 	outputFile  *os.File
 }
 
-func NewLogger() *Logger {
+type ILogger interface {
+	Info(message string)
+	Debug(message string)
+	Error(message string)
+	Init(filePath string) error
+	Close() error
+}
+
+func NewLogger() ILogger {
 	return &Logger{
 		infoLogger:  log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile),
 		debugLogger: log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile),
