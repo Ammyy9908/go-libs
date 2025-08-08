@@ -5,12 +5,12 @@ import (
 	"os"
 )
 
-type Logger struct {
+var (
 	infoLogger  *log.Logger
 	debugLogger *log.Logger
 	errorLogger *log.Logger
 	outputFile  *os.File
-}
+)
 
 type ILogger interface {
 	Info(message string)
@@ -20,18 +20,18 @@ type ILogger interface {
 	Close() error
 }
 
-func NewLogger() ILogger {
-	return &Logger{
-		infoLogger:  log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile),
-		debugLogger: log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile),
-		errorLogger: log.New(os.Stdout, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile),
-	}
-}
+// func NewLogger() ILogger {
+// 	return &Logger{
+// 		infoLogger:  log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile),
+// 		debugLogger: log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile),
+// 		errorLogger: log.New(os.Stdout, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile),
+// 	}
+// }
 
 // Init initializes the logger with an optional output file
 // If filePath is provided and valid, all log output will be redirected to that file
 // If filePath is empty or invalid, output will continue to stdout
-func (l *Logger) Init(filePath string) error {
+func Init(filePath string) error {
 	if filePath == "" {
 		// Reset to stdout if no file path provided
 		l.outputFile = nil
@@ -56,21 +56,21 @@ func (l *Logger) Init(filePath string) error {
 }
 
 // Close closes the output file if one was opened
-func (l *Logger) Close() error {
+func Close() error {
 	if l.outputFile != nil {
 		return l.outputFile.Close()
 	}
 	return nil
 }
 
-func (l *Logger) Info(message string) {
-	l.infoLogger.Output(2, message)
+func Info(message string) {
+	infoLogger.Output(2, message)
 }
 
-func (l *Logger) Debug(message string) {
-	l.debugLogger.Output(2, message)
+func Debug(message string) {
+	debugLogger.Output(2, message)
 }
 
-func (l *Logger) Error(message string) {
-	l.errorLogger.Output(2, message)
+func Error(message string) {
+	errorLogger.Output(2, message)
 }
